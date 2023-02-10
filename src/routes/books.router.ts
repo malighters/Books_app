@@ -9,7 +9,7 @@ booksRouter.use(express.json())
 // GET
 booksRouter.get('/', async (_req: Request, res: Response) => {
     try{
-        const books = (await collections.books?.find({})) as unknown as Book[];
+        const books = (await collections.books?.find({}).toArray()) as unknown as Book[];
 
         res.status(200).send(books);
     } catch (error) {
@@ -21,8 +21,8 @@ booksRouter.get('/:id', async (req: Request, res: Response) => {
     const id = req?.params?.id;
 
     try{
-        const query = { _id: new Types.ObjectId(id)};
-        const book = (await collections.books?.find({ query })) as unknown as Book;
+        
+        const book = (await collections.books!.findOne({ _id: new Types.ObjectId(id) })) as unknown as Book;
 
         if(book){
             res.status(200).send(book)
@@ -34,20 +34,7 @@ booksRouter.get('/:id', async (req: Request, res: Response) => {
 
 });
 // POST
-booksRouter.post('/', async (req: Request, res: Response) => {
-    try {
-        const newBook = req.body as Book;
-        const result = await collections.books?.insertOne(newBook);
-
-        result 
-            ? res.status(201).send(`Successfully created a new book with id ${result.insertedId}`)
-            : res.status(500).send('Failed to create a new book')
-    }
-    catch (error) {
-        console.error(error);
-        res.status(400).send(error.message)
-    }
-});
+booksRouter.post('/');
 // PUT
 booksRouter.put('/');
 // DELETE
