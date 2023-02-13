@@ -131,3 +131,6 @@ lib
 
 # IDE
 .idea
+
+#redis dump
+dump.rdb

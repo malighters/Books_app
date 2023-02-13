@@ -1,5 +1,17 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-export class Book {
-  constructor(public title: string, public author: string, public genre: string, public publicationYear: number, public id?: mongoose.ObjectId){}
+interface IBook {
+  title: string
+  authotr: string
+  genre: string
+  publicationYear: number
 }
+
+const BookSchema = new mongoose.Schema<IBook>({
+  title: String,
+  authotr: String,
+  genre: String,
+  publicationYear: Number,
+},);
+
+export const Book = mongoose.model<IBook>('Book', BookSchema,);

@@ -1,34 +1,35 @@
-import express, {Request, Response, NextFunction} from 'express'
-import mongoose from 'mongoose'
-import { connectToDatabase } from './services/database.service.js';
-import { booksRouter } from './routes/books.router.js';
-import dotenv from 'dotenv';
+import express, { type Request, type Response, type NextFunction, } from 'express';
+import mongoose from 'mongoose';
+import { booksRouter, } from './routes/books.router.js';
+import config from './utils/config.js';
 
 const app = express();
 
-dotenv.config();
-app.use(express.json());
+app.use(express.json(),);
 
-app.use((err: Error, req: Request, res:Response, next: NextFunction) => {
-    res.status(500).json({message: err.message});
-});
+app.use((err: Error, req: Request, res: Response, next: NextFunction,) => {
+  res.status(500,).json({ message: err.message, },);
+},);
 
-connectToDatabase()
-    .then(() => {
-        app.use('/api/books', booksRouter);
+if(!config.MONGODB_URI || !config.PORT){
+    console.warn('Problem with environment variables');
+}
+else{
+    mongoose.connect(config.MONGODB_URI)
+  .then(() => {
+    app.use('/api/books', booksRouter,);
 
-        app.listen(process.env.PORT, () => {
-            console.log(`Server started at http://localhost:${process.env.PORT}`);
-        });
-    })
-    .catch((error: Error) => {
-        console.error("Database connection failed", error);
-        process.exit();
-    });
+    app.listen(process.env.PORT, () => {
+      console.log(`Server started at http://localhost:${config.PORT}`,);
+    },);
+  },)
+  .catch((error: Error,) => {
+    console.error('Database connection failed', error,);
+    process.exit();
+  },);
+}
 
 
-
-
-app.get('/', (req, res) => {
-    res.send('hello world')
-})
+app.get('/', (req, res,) => {
+  res.send('hello world',);
+},);
