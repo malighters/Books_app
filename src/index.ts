@@ -11,7 +11,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction,) => {
   res.status(500,).json({ message: err.message, },);
 },);
 
-if(!config.MONGODB_URI || !config.PORT){
+if(!config.MONGODB_URI){
     console.warn('Problem with environment variables');
 }
 else{
