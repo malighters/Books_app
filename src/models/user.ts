@@ -21,7 +21,8 @@ const UserSchema = new mongoose.Schema({
         unique: true
       },
     name: String,
-    email: String
+    email: String,
+    passwordHash: String
 })
 
 export const User = mongoose.model('User', UserSchema)

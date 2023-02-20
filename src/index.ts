@@ -1,4 +1,4 @@
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import cors from "cors";
 import cookieParser from 'cookie-parser';
 import express, { type Request, type Response, type NextFunction, } from 'express';

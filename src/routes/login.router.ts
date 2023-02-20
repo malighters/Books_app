@@ -1,5 +1,5 @@
 import express, { type Request, type Response, } from 'express';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import passport from 'passport';
 import { User, IUser } from '../models/user.js';
 
@@ -35,9 +35,9 @@ loginRouter.post('/register', async (req: Request, res: Response) => {
 
 })
 
-loginRouter.post('/login', passport.authenticate('local', (req: Request, res: Response) => {
+loginRouter.post('/login', passport.authenticate('local'), (req: Request, res: Response) => {
     res.send('Successfully authenticated');
-}))
+})
 
 loginRouter.get('/user', async (req: Request, res: Response) => {
     res.send(req.user);
