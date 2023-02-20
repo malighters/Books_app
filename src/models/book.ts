@@ -7,6 +7,7 @@ interface IBook {
   publicationYear: number
 }
 
+
 const BookSchema = new mongoose.Schema<IBook>({
   title: String,
   authotr: String,
