@@ -14,10 +14,10 @@ loginRouter.post('/register', async (req: Request, res: Response) => {
         return;
     }
 
-    User.findOne({username}, async(err: Error, doc: IUser) => {
+    User.findOne({username}, async(err: Error, user: IUser) => {
         if(err) throw err;
-        if(doc) res.send('User already exists');
-        if(!doc) {
+        if(user) res.send('User already exists');
+        if(!user) {
             const hashedPassword = await bcrypt.hash(req.body.password, 10);
             
             const newUser = new User ({
@@ -36,9 +36,17 @@ loginRouter.post('/register', async (req: Request, res: Response) => {
 })
 
 loginRouter.post('/login', passport.authenticate('local'), (req: Request, res: Response) => {
-    res.send('Successfully authenticated');
+    res.send('Success');
 })
 
 loginRouter.get('/user', async (req: Request, res: Response) => {
     res.send(req.user);
+})
+
+loginRouter.get('/logout', async (req: Request, res: Response) => {
+    req.logout((err: Error) => {
+        if(err) throw err;
+        res.send('Success')
+    });
+    
 })
