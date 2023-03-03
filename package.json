@@ -7,6 +7,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node .",
+    "dev": "nodemon --exec ts-node src/index.ts",
     "lint": "eslint --ext .js,.ts ."
   },
   "author": "",
@@ -21,7 +22,9 @@
     "express-session": "^1.17.3",
     "mongoose": "^6.9.1",
     "passport": "^0.6.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "pg": "^8.9.0",
+    "typeorm": "^0.3.12"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
