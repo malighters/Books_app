@@ -1,7 +1,8 @@
 import express, { type Request, type Response, } from 'express';
 import bcrypt from 'bcrypt';
 import passport from 'passport';
-import { User, IUser } from '../models/user.js';
+import { User } from '../entity/User.js';
+import { AppDataSource } from '../data-source.js';
 
 export const loginRouter = express.Router();
 loginRouter.use(express.json(),);
@@ -14,24 +15,26 @@ loginRouter.post('/register', async (req: Request, res: Response) => {
         return;
     }
 
-    User.findOne({username}, async(err: Error, user: IUser) => {
-        if(err) throw err;
-        if(user) res.send('User already exists');
-        if(!user) {
-            const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const userRepository = AppDataSource.getMongoRepository(User);
+
+    const expectedUser = await userRepository.findOneBy({username: username})
+    if(!expectedUser){
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
             
-            const newUser = new User ({
-                username,
-                name,
-                email,
-                passwordHash: hashedPassword,
-            })
+            const newUser = new User();
+            
+            newUser.username = username;
+            newUser.name = name;
+            newUser.email = email;
+            newUser.passwordHash = hashedPassword;
             
             await newUser.save();
         
             res.send('Success');
-        }
-    })
+    }
+    else{
+        res.send('User already exists');
+    }
 
 })
 
