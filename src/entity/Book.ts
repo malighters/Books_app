@@ -6,7 +6,7 @@ export class Book extends BaseEntity {
     id: string;
 
     @Column()
-    title: string;
+    name: string;
 
     @Column()
     author: string;
