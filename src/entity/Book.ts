@@ -1,8 +1,8 @@
-import { Entity, ObjectIdColumn, Column, BaseEntity} from "typeorm"; 
+import { Entity, ObjectIdColumn, Column, BaseEntity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Book extends BaseEntity {
-    @ObjectIdColumn()
+    @PrimaryGeneratedColumn()
     id: string;
 
     @Column()
@@ -10,7 +10,7 @@ export class Book extends BaseEntity {
 
     @Column()
     author: string;
-    
+
     @Column()
     genre: string;
 
