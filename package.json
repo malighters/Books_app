@@ -10,8 +10,15 @@
     "dev": "nodemon --exec ts-node src/index.ts",
     "lint": "eslint --ext .js,.ts .",
     "typeorm": "typeorm-ts-node-esm",
-    "typeorm:revert": "typeorm migration:revert -- -d ./src/data-source.ts",
-    "typeorm:run": "typeorm migration:run -- -d ./src/data-source.ts"
+    "typeorm:sync": "npm run typeorm schema:sync -- -d ./src/data-source.ts ",
+    "typeorm:drop": "npm run typeorm schema:drop -- -d ./src/data-source.ts ",
+    "typeorm:reset": "npm run typeorm:drop && npm run typeorm:sync",
+    "typeorm:run": "ts-node -r tsconfig-paths/register $(yarn bin typeorm) migration:run",
+    "migration:show": "npm run typeorm migration:show -- -d ./src/data-source.ts ",
+    "migration:revert": "npm run typeorm migration:revert -- -d ./src/data-source.ts",
+    "migration:run": "npm run typeorm migration:run -- -d ./src/data-source.ts",
+    "migration:generate": "npm run typeorm migration:generate -- -d ./src/data-source.ts",
+    "migration:create": "npm run typeorm migration:create -- -d ./src/data-source.ts"
   },
   "author": "",
   "license": "ISC",
@@ -27,6 +34,7 @@
     "mongoose": "^6.10.1",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
+    "pg": "^8.10.0",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.12"
   },
