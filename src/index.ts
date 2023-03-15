@@ -8,7 +8,7 @@ import session from "express-session";
 import passport from "passport";
 import passportLocal from 'passport-local';
 
-import { AppDataSource } from "./data-source.js";
+import { PostgresDataSource } from "./data-source.js";
 import { booksRouter, } from './routes/books.router.js';
 import config from './utils/config.js';
 import { loginRouter } from "./routes/login.router.js";
@@ -40,7 +40,7 @@ app.use(passport.session());
 //Passport 
 
 passport.use(new LocalStrategy( async (username: string, password: string, done) => {
-  const userRepository = AppDataSource.getMongoRepository(User);
+  const userRepository = PostgresDataSource.getRepository(User);
   const user = await userRepository.findOneBy({username: username});
   if(user){
     bcrypt.compare(password, user.passwordHash, (err, result: boolean) => {
@@ -61,7 +61,7 @@ passport.serializeUser((user: User, cb) => {
 
 passport.deserializeUser( async (id: string, cb) => {
   try{
-    const userRepository = AppDataSource.getMongoRepository(User);
+    const userRepository = PostgresDataSource.getRepository(User);
     const user = await userRepository.findOneById(id);
     
     if(user){
@@ -80,7 +80,7 @@ const main = async () => {
 }
   else{
     try{
-      await AppDataSource.initialize();
+      await PostgresDataSource.initialize();
       app.use('/api/books', booksRouter,);
       app.use('/', loginRouter,);
 
