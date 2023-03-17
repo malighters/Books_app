@@ -2,7 +2,7 @@
 // External Dependencies
 import express, { type Request, type Response, } from 'express';
 import { Book } from '../entity/Book.js';
-import { AppDataSource } from '../data-source.js';
+import { PostgresDataSource } from '../data-source.js';
 import { postBook, } from '../worker/book.worker.js';
 
 // Global Config
@@ -12,7 +12,7 @@ booksRouter.use(express.json(),);
 // GET
 booksRouter.get('/', async (_req: Request, res: Response,) => {
   try {
-    const bookRepository = AppDataSource.getMongoRepository(Book);
+    const bookRepository = PostgresDataSource.getRepository(Book);
     const books = await bookRepository.find();
     
     res.json(books,);
@@ -24,7 +24,7 @@ booksRouter.get('/', async (_req: Request, res: Response,) => {
 booksRouter.get('/:id', async (req: Request, res: Response,) => {
   const id = req?.params?.id || '-1';
   try {
-    const bookRepository = AppDataSource.getMongoRepository(Book);
+    const bookRepository = PostgresDataSource.getRepository(Book);
     const book = await bookRepository.findOneById(id);
 
     if (book) {

@@ -1,7 +1,7 @@
 import { Worker, type Job, } from 'bullmq';
 import { Book } from '../entity/Book.js';
 import { bookQueue, } from '../queue/book.queue.js';
-import { AppDataSource } from '../data-source.js';
+import { PostgresDataSource } from '../data-source.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const bookWorker = new Worker(bookQueue.name, async (job: Job,) => {
@@ -11,7 +11,7 @@ const bookWorker = new Worker(bookQueue.name, async (job: Job,) => {
   book.author = data.title;
   book.genre = data.title;
   book.publicationYear = data.publicationYear;
-  const bookRepository = AppDataSource.getMongoRepository(Book);
+  const bookRepository = PostgresDataSource.getRepository(Book);
   await bookRepository.save(book);
 },
 {

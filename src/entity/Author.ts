@@ -4,6 +4,6 @@ import { Book } from './Book.js';
 
 @Entity()
 export class Author extends User{
-    @OneToMany(() => Book, (book) => book.author)
+    @OneToMany('Book', 'author')
     books: Book[];
 }

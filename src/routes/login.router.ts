@@ -1,8 +1,8 @@
 import express, { type Request, type Response, } from 'express';
 import bcrypt from 'bcrypt';
 import passport from 'passport';
-import { User } from '../entity/User.js';
-import { AppDataSource } from '../data-source.js';
+import { Author } from '../entity/Author.js';
+import { PostgresDataSource } from '../data-source.js';
 
 export const loginRouter = express.Router();
 loginRouter.use(express.json(),);
@@ -15,13 +15,13 @@ loginRouter.post('/register', async (req: Request, res: Response) => {
         return;
     }
 
-    const userRepository = AppDataSource.getMongoRepository(User);
+    const userRepository = PostgresDataSource.getRepository(Author);
 
     const expectedUser = await userRepository.findOneBy({username: username})
     if(!expectedUser){
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
             
-            const newUser = new User();
+            const newUser = new Author();
             
             newUser.username = username;
             newUser.name = name;

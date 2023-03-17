@@ -8,6 +8,9 @@ import config from "./utils/config.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+import { User } from "./entity/User.js";
+import { Author } from "./entity/Author.js";
+import { Book } from "./entity/Book.js";
 
 const MongoDataSource = new DataSource({
   type: "mongodb",
@@ -19,6 +22,7 @@ const MongoDataSource = new DataSource({
   entities: [ `${__dirname}/entity/*.ts`],
   migrations: [ `${__dirname}/migrations/*.ts` ],
   subscribers: [],
+  synchronize: true
 });
 
 const PostgresDataSource = new DataSource({
@@ -27,8 +31,8 @@ const PostgresDataSource = new DataSource({
   logging: true,
   ssl: false,
   database: 'books',
-  entities: [ `${__dirname}/entity/*.ts`],
-  migrations: [ `${__dirname}/migrations/*.ts` ],
+  entities: [User, Author, Book],
+  migrations: [ `${__dirname}/migrations/*.js` ],
   subscribers: [],
 });
 

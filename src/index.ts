@@ -12,7 +12,7 @@ import { PostgresDataSource } from "./data-source.js";
 import { booksRouter, } from './routes/books.router.js';
 import config from './utils/config.js';
 import { loginRouter } from "./routes/login.router.js";
-import { User } from "./entity/User.js";
+import { Author } from "./entity/Author.js";
 
 
 const LocalStrategy = passportLocal.Strategy;
@@ -40,7 +40,7 @@ app.use(passport.session());
 //Passport 
 
 passport.use(new LocalStrategy( async (username: string, password: string, done) => {
-  const userRepository = PostgresDataSource.getRepository(User);
+  const userRepository = PostgresDataSource.getRepository(Author);
   const user = await userRepository.findOneBy({username: username});
   if(user){
     bcrypt.compare(password, user.passwordHash, (err, result: boolean) => {
@@ -55,13 +55,13 @@ passport.use(new LocalStrategy( async (username: string, password: string, done)
 })
 );
 
-passport.serializeUser((user: User, cb) => {
+passport.serializeUser((user: Author, cb) => {
   cb(null, user.id);
 });
 
 passport.deserializeUser( async (id: string, cb) => {
   try{
-    const userRepository = PostgresDataSource.getRepository(User);
+    const userRepository = PostgresDataSource.getRepository(Author);
     const user = await userRepository.findOneById(id);
     
     if(user){

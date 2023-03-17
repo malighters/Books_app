@@ -1,4 +1,4 @@
-import { Entity, ObjectIdColumn, Column, BaseEntity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Author } from './Author.js';
 
 
@@ -16,6 +16,6 @@ export class Book extends BaseEntity {
     @Column()
     publicationYear: number;
 
-    @ManyToOne(() => Author, (author) => author.books)
+    @ManyToOne('Author', 'books')
     author: Author;
 }
